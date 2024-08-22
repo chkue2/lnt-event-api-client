@@ -3,7 +3,8 @@
 </template>
 
 <script setup lang="ts">
-defineOptions({
-  name: 'App'
-});
+import { useQuasar } from 'quasar';
+
+const $q = useQuasar();
+$q.dark.set(true);
 </script>
