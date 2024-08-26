@@ -16,19 +16,17 @@ export default class ApiErrorHelper {
           return null;
         }
         return {
-          errorCode: data.code,
-          message: data.message,
-          status: error.response.status,
+          message: data.error,
+          status: data.status,
+          path: data.path,
         };
       }
       return {
-        errorCode: '',
         message: error.message,
         status: 0,
       };
     }
     return {
-      errorCode: '',
       message: 'unexpcted error: ',
       status: 0,
     };

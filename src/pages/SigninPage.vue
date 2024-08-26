@@ -11,7 +11,7 @@
     <q-card-section>
       <q-form class="q-gutter-md" ref="signinForm" @submit="onSubmit">
         <q-input
-          v-model="model.userId"
+          v-model="model.email"
           label="이메일"
           lazy-rules
           :rules="[(val) => (val && val.length > 0) || '이메일을 입력하세요.']"
@@ -72,7 +72,7 @@ const authStore = useAuthorStore();
 const signinForm = ref(null);
 
 const model = ref<SigninUser>({
-  userId: 'id',
+  email: 'id',
   password: 'asdf1234!',
 });
 

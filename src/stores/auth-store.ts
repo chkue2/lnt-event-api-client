@@ -51,6 +51,7 @@ export const useAuthorStore = defineStore('Author', {
         },
         (apiError?: ApiError) => {
           this.state = 'error';
+          console.log(apiError);
           if (apiError) this.errorMessage = apiError.message;
           else this.errorMessage = '접속오류';
         }

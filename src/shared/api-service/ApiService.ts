@@ -1,7 +1,6 @@
 import { api } from 'boot/axios';
 import { ApiError } from './model/ApiError';
 import ApiErrorHelper from './ApiErrorHelper';
-import connectionPool from './ConnectionPool';
 import QueryParams from './model/QueryParams';
 
 class ApiService {
@@ -12,20 +11,16 @@ class ApiService {
       onNormal: { (respond: R): void },
       onError: { (apiError?: ApiError): void }
     ) => {
-      connectionPool.subscribe((done) => {
-        this.http
-          .get(url, { params })
-          .then((responed) => {
-            done();
-            const { data } = responed;
-            onNormal(data as R);
-          })
-          .catch((error) => {
-            done();
-            const apiError = ApiErrorHelper.from(error);
-            if (apiError) onError(apiError);
-          });
-      });
+      this.http
+        .get(url, { params })
+        .then((responed) => {
+          const { data } = responed;
+          onNormal(data as R);
+        })
+        .catch((error) => {
+          const apiError = ApiErrorHelper.from(error);
+          if (apiError) onError(apiError);
+        });
     };
   }
 
@@ -34,20 +29,17 @@ class ApiService {
       onNormal: { (respond: T): void },
       onError: { (apiError?: ApiError): void }
     ) => {
-      connectionPool.subscribe((done) => {
-        this.http
-          .get(url)
-          .then((responed) => {
-            done();
-            const { data } = responed;
-            onNormal(data as T);
-          })
-          .catch((error) => {
-            done();
-            const apiError = ApiErrorHelper.from(error);
-            if (apiError) onError(apiError);
-          });
-      });
+      this.http
+        .get(url)
+        .then((responed) => {
+          console.log(responed);
+          const { data } = responed;
+          onNormal(data as T);
+        })
+        .catch((error) => {
+          const apiError = ApiErrorHelper.from(error);
+          if (apiError) onError(apiError);
+        });
     };
   }
 
@@ -56,20 +48,16 @@ class ApiService {
       onNormal: { (respond: R): void },
       onError: { (apiError?: ApiError): void }
     ) => {
-      connectionPool.subscribe((done) => {
-        this.http
-          .post(url, t)
-          .then((respond) => {
-            done();
-            const { data } = respond;
-            onNormal(data as R);
-          })
-          .catch((error) => {
-            done();
-            const apiError = ApiErrorHelper.from(error);
-            if (apiError) onError(apiError);
-          });
-      });
+      this.http
+        .post(url, t)
+        .then((respond) => {
+          const { data } = respond;
+          onNormal(data as R);
+        })
+        .catch((error) => {
+          const apiError = ApiErrorHelper.from(error);
+          if (apiError) onError(apiError);
+        });
     };
   }
 
@@ -78,20 +66,16 @@ class ApiService {
       onNormal: { (respond: R): void },
       onError: { (apiError?: ApiError): void }
     ) => {
-      connectionPool.subscribe((done) => {
-        this.http
-          .put(url, t)
-          .then((respond) => {
-            done();
-            const { data } = respond;
-            onNormal(data as R);
-          })
-          .catch((error) => {
-            done();
-            const apiError = ApiErrorHelper.from(error);
-            if (apiError) onError(apiError);
-          });
-      });
+      this.http
+        .put(url, t)
+        .then((respond) => {
+          const { data } = respond;
+          onNormal(data as R);
+        })
+        .catch((error) => {
+          const apiError = ApiErrorHelper.from(error);
+          if (apiError) onError(apiError);
+        });
     };
   }
 

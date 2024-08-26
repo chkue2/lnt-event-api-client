@@ -88,8 +88,8 @@ module.exports = configure(function (ctx) {
         // proxy all requests starting with /api to jsonplaceholder
         '/lnt-event-api': {
           target: 'http://localhost:8082',
+          pathRewrite: { '^/lnt-event-api': '' },
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/lnt-event-api/, ''),
         },
       },
     },
