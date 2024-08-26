@@ -9,29 +9,29 @@
       <div class="col text-h6 flex justify-center text-grey-5">계정등록</div>
     </q-card-section>
     <q-card-section>
-      <q-form class="q-gutter-md" ref="signinForm" @submit="onSubmit">
+      <q-form class="q-gutter-md" ref="signupForm" @submit="onSubmit">
         <q-input
-          model-value=""
+          v-model="model.email"
           label="이메일"
           lazy-rules
           :rules="[(val) => (val && val.length > 0) || '이메일을 입력하세요.']"
         />
         <q-input
-          model-value=""
+          v-model="model.fullName"
           label="이름"
           lazy-rules
           :rules="[(val) => (val && val.length > 0) || '이름을 입력하세요.']"
         />
         <q-select
-          v-model="optionModel"
+          v-model="model.store"
           :options="options"
           label="서비스"
           emit-value
           map-options
         />
-        <q-input model-value="" label="기관코드" />
+        <q-input v-model="model.insCode" label="기관코드" />
         <q-input
-          model-value=""
+          v-model="model.password"
           type="password"
           label="비밀번호"
           lazy-rules
@@ -40,12 +40,14 @@
           ]"
         />
         <q-input
-          model-value=""
+          v-model="model.passwordConfirm"
           type="password"
           label="비밀번호 확인"
           lazy-rules
           :rules="[
-            (val) => (val && val.length > 0) || '비밀번호를 입력하세요.',
+            (val) =>
+              (val && val.length > 0 && model.password === val) ||
+              '비밀번호를 다시 입력하세요.',
           ]"
         />
         <!-- <div v-if="store.isError" class="text-red text-center q-pa-none">
@@ -82,13 +84,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { QForm } from 'quasar';
 import { useRouter } from 'vue-router';
 
-const router = useRouter();
+import { SignupUser } from 'src/shared/domain/author';
+import { useAuthorStore } from 'src/stores/auth-store';
 
-const optionModel = ref('KN');
+const router = useRouter();
+const authStore = useAuthorStore();
+
 const options = [
   {
     label: '법무인',
@@ -99,12 +104,27 @@ const options = [
     value: '',
   },
 ];
-
+const signupForm = ref(null);
+const model = ref<SignupUser>({
+  email: '',
+  password: '',
+  passwordConfirm: '',
+  store: 'KN',
+  insCode: '',
+  fullName: '',
+});
 /**
  *  methods
  */
 const onSubmit = () => {
-  //
+  if (!signupForm.value) return;
+  const form = signupForm.value as QForm;
+  form.validate().then((success) => {
+    if (success) {
+      // signin
+      authStore.signup(model.value, moveSignin);
+    }
+  });
 };
 
 const moveSignin = () => {
