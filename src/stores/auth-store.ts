@@ -13,6 +13,8 @@ import {
   SignonUser,
 } from 'src/shared/domain/author';
 import NotifyUtil from 'src/shared/resource/NotifyUtil';
+import { SessionStorage } from 'quasar';
+import { ACCESS_TOKEN } from 'src/shared';
 
 export const useAuthorStore = defineStore('Author', {
   state: (): AuthorState => ({ ...DEFAULT_STATE }),
@@ -40,6 +42,7 @@ export const useAuthorStore = defineStore('Author', {
       this.state = 'loading';
       apiService.post<SigninUser, SignonUser>('signin', signUser)(
         (respond: SignonUser) => {
+          SessionStorage.set(ACCESS_TOKEN, respond.token);
           this.signonUser = respond;
           this.state = 'none';
           this.router.push({ name: 'auth' });
