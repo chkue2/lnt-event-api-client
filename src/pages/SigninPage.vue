@@ -72,8 +72,8 @@ const authStore = useAuthorStore();
 const signinForm = ref(null);
 
 const model = ref<SigninUser>({
-  email: 'id',
-  password: 'asdf1234!',
+  email: '',
+  password: '',
 });
 
 /**

@@ -13,7 +13,6 @@ import {
   SignonUser,
 } from 'src/shared/domain/author';
 import NotifyUtil from 'src/shared/resource/NotifyUtil';
-import { useWebview } from 'src/shared/resource/useWebview';
 
 export const useAuthorStore = defineStore('Author', {
   state: (): AuthorState => ({ ...DEFAULT_STATE }),
@@ -34,8 +33,6 @@ export const useAuthorStore = defineStore('Author', {
       if (this.signonUser) {
         NotifyUtil.error('세션이 종료되어 로그인 페이지로 이동합니다.');
         this.signonUser = null;
-        const { appResize } = useWebview();
-        appResize('default');
         this.router.push('/signin');
       }
     },
@@ -45,15 +42,13 @@ export const useAuthorStore = defineStore('Author', {
         (respond: SignonUser) => {
           this.signonUser = respond;
           this.state = 'none';
-          const { appResize } = useWebview();
-          appResize('max');
-          this.router.push('/home');
+          this.router.push({ name: 'auth' });
         },
         (apiError?: ApiError) => {
           this.state = 'error';
-          console.log(apiError);
           if (apiError) this.errorMessage = apiError.message;
           else this.errorMessage = '접속오류';
+          NotifyUtil.error(this.errorMessage);
         }
       );
     },
@@ -61,13 +56,14 @@ export const useAuthorStore = defineStore('Author', {
       this.state = 'loading';
       apiService.post<SignupUser, SignupUserResepond>('signup', signupUser)(
         () => {
-          alert('관리자 승인 후 로그인 가능합니다.');
+          NotifyUtil.error('관리자 승인 후 로그인 가능합니다.');
           callback();
         },
         (apiError?: ApiError) => {
           this.state = 'error';
           if (apiError) this.errorMessage = apiError.message;
           else this.errorMessage = '가입오류';
+          NotifyUtil.error(this.errorMessage);
         }
       );
     },
