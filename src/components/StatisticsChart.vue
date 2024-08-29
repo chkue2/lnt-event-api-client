@@ -21,7 +21,7 @@
     </div>
     <div class="col-10">
       <q-card-section style="height: 100%">
-        <bar-chart></bar-chart>
+        <bar-chart v-if="!chartStore.isLoading"></bar-chart>
       </q-card-section>
     </div>
   </div>
@@ -33,7 +33,11 @@ import { date } from 'quasar';
 
 import BarChart from 'src/components/BarChart.vue';
 import DateInput from 'src/components/DateInput.vue';
-import { CHART_DATE_WEEK, dateTypeOptions } from 'src/shared/domain/chart';
+import {
+  CHART_DATE_WEEK,
+  dateTypeOptions,
+  statisticsSet,
+} from 'src/shared/domain/chart';
 
 import { useChartStore } from 'src/stores/chart-store';
 
@@ -59,6 +63,8 @@ const callApi = () => {
     searchToDate: searchDate.value,
   });
 };
+
+chartStore.putStatisticsOption(statisticsSet.options);
 
 const updateDate = (val: string) => {
   searchDate.value = val;

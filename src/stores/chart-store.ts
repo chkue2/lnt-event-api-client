@@ -86,17 +86,18 @@ export const useChartStore = defineStore('chart', {
           const searchCodes = [];
           searchCodes.push(...option.searchCodes);
           if (!addedcount) {
-            searchCodes.unshift('count');
+            searchCodes.unshift('total');
             addedcount = true;
           }
           if (searchCodes.length > 0) {
             searchCodes.forEach((code) => {
+              console.log('code', code);
               const dataset: ChartViewDataset = {
                 label: '',
                 backgroundColor: '',
                 data: [],
               };
-              if (code === 'count') {
+              if (code === 'total') {
                 dataset.label = '전체';
                 dataset.backgroundColor = '#324147';
               } else {
@@ -109,6 +110,7 @@ export const useChartStore = defineStore('chart', {
                   (item) => item.grouped === value
                 );
                 if (data) {
+                  console.log('data', data);
                   dataset.data.push(data[code] as number);
                 } else {
                   dataset.data.push(0);
@@ -119,6 +121,7 @@ export const useChartStore = defineStore('chart', {
           }
         });
       }
+      console.log('chartview', chartView);
       return chartView;
     },
     isLoading(state) {

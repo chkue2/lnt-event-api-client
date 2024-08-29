@@ -32,7 +32,6 @@ class ApiService {
       this.http
         .get(url)
         .then((responed) => {
-          console.log(responed);
           const { data } = responed;
           onNormal(data as T);
         })
