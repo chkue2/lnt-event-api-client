@@ -91,7 +91,6 @@ export const useChartStore = defineStore('chart', {
           }
           if (searchCodes.length > 0) {
             searchCodes.forEach((code) => {
-              console.log('code', code);
               const dataset: ChartViewDataset = {
                 label: '',
                 backgroundColor: '',
@@ -110,7 +109,6 @@ export const useChartStore = defineStore('chart', {
                   (item) => item.grouped === value
                 );
                 if (data) {
-                  console.log('data', data);
                   dataset.data.push(data[code] as number);
                 } else {
                   dataset.data.push(0);
@@ -121,7 +119,6 @@ export const useChartStore = defineStore('chart', {
           }
         });
       }
-      console.log('chartview', chartView);
       return chartView;
     },
     isLoading(state) {
