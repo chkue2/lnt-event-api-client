@@ -1,4 +1,4 @@
-export default interface queryParams {
+export interface SearchSocketUserState {
   toDate?: string | null;
   fromDate?: string | null;
   scope?: string | null;
