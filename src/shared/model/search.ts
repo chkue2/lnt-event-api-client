@@ -19,5 +19,18 @@ export interface Search {
   searchCuCode?: string;
   searchDomain?: string;
   searchChargeDefine?: string;
-  searchDateType: string;
+  searchDateType?: string;
+  toDate?: string | null;
+  fromDate?: string | null;
+  scope?: string | null;
+  catCode?: string | null;
+  kind?: string | null;
+  keyword?: string | null;
+  userType?: string | null;
+  useFlag?: string | null;
+  insCode?: string | null;
+  store?: string | null;
+  path?: string | null;
+  cursor?: string;
+  limit?: number;
 }

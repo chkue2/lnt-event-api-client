@@ -3,6 +3,7 @@ import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import { SessionStorage } from 'quasar';
 import { ACCESS_TOKEN } from 'src/shared';
 import ApiErrorHelper from 'src/shared/resource/ApiErrorHelper';
+import NotifyUtil from 'src/shared/resource/NotifyUtil';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -38,6 +39,10 @@ api.interceptors.response.use(
     if (apiError.error == 'EXPIRED_TOKEN') {
       const authorization = config.headers.Authorization;
       // refresh api call
+      const response = api.get('/refresh').catch((e) => {
+        NotifyUtil.error(e);
+      });
+      console.log(response);
       const accessToken = SessionStorage.getItem(ACCESS_TOKEN) as string;
       if (accessToken) {
         const bearer = `Bearer ${accessToken}`;

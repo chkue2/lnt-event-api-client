@@ -146,8 +146,14 @@ export const useChartStore = defineStore('chart', {
         }
       );
     },
-    loadedChartView(statisticsResult: StatisticsResult[], dateKind: string) {
-      this.searchDateKind = dateKind;
+    loadedChartView(
+      statisticsResult: StatisticsResult[],
+      dateKind: string | undefined
+    ) {
+      if (dateKind !== undefined) {
+        this.searchDateKind = dateKind;
+      }
+
       this.statisticsResult = [];
       if (statisticsResult.length > 0) {
         statisticsResult.forEach((value) => {
