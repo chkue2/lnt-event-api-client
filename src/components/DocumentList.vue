@@ -95,6 +95,7 @@
         dark
         flat
         bordered
+        virtual-scroll
         table-header-class="bg-grey-9"
         :rows="documentStore.getDocumentList || []"
         :columns="DOCUMENT_LIST_COLUMN"
@@ -103,6 +104,7 @@
         row-key="index"
         hide-pagination
         style="width: 100%; height: 100%"
+        @virtual-scroll="onScroll"
       >
         <template v-slot:body-cell="props">
           <q-td :props="props" @click="clickRow(props.row.docId)">
@@ -223,6 +225,20 @@ const callApiList = () => {
     fromDate: fromDate.value,
     toDate: toDate.value,
   });
+};
+
+const onScroll = (detail: {
+  index: number;
+  from: number;
+  to: number;
+  direction: string;
+}) => {
+  if (detail.index === detail.to) {
+    const search = documentStore.getDocumentListSearch;
+    if (search) {
+      documentStore.searchDocumentListAdd(search);
+    }
+  }
 };
 
 const clickRow = (docId: string) => {

@@ -23,20 +23,40 @@ export const useDocumentStore = defineStore('document', {
     state: 'none',
     errorMessage: '',
     documentList: [],
+    documentListSearch: null,
     documentDetail: [],
+    documentDetailSearch: null,
     active: true,
     selectedDocId: '',
   }),
   getters: {
     getDocumentList: (state) => state.documentList,
     getDocumentDetail: (state) => state.documentDetail,
+    getDocumentListSearch: (state) => state.documentListSearch,
+    getDocumentDetailSearch: (state) => state.documentDetailSearch,
   },
   actions: {
     searchDocumentList(searchForm: Search) {
       apiService.getParams<DocumentListResult>('/document/admin', searchForm)(
         (respond: DocumentListResult) => {
           this.state = 'none';
+          this.documentListSearch = respond.search;
           this.documentList = respond.list;
+        },
+        (apiError?: ApiError) => {
+          this.state = 'error';
+          if (apiError) this.errorMessage = apiError.message;
+          else this.errorMessage = '전문이력 목록 에러';
+          NotifyUtil.error(this.errorMessage);
+        }
+      );
+    },
+    searchDocumentListAdd(searchForm: Search) {
+      apiService.getParams<DocumentListResult>('/document/admin', searchForm)(
+        (respond: DocumentListResult) => {
+          this.state = 'none';
+          this.documentListSearch = respond.search;
+          this.documentList?.push(...respond.list);
         },
         (apiError?: ApiError) => {
           this.state = 'error';
@@ -54,6 +74,23 @@ export const useDocumentStore = defineStore('document', {
         (respond: DocumentDetailResult) => {
           this.state = 'none';
           this.documentDetail = respond.list;
+        },
+        (apiError?: ApiError) => {
+          if (apiError) this.errorMessage = apiError.message;
+          else this.errorMessage = '전문이력 상세 에러';
+          NotifyUtil.error(this.errorMessage);
+        }
+      );
+    },
+    searchDocumentDetailAdd(searchForm: Search) {
+      apiService.getParams<DocumentDetailResult>(
+        '/document/history',
+        searchForm
+      )(
+        (respond: DocumentDetailResult) => {
+          this.state = 'none';
+          this.documentDetailSearch = respond.search;
+          this.documentDetail?.push(...respond.list);
         },
         (apiError?: ApiError) => {
           if (apiError) this.errorMessage = apiError.message;
