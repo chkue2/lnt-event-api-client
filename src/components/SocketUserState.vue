@@ -70,6 +70,7 @@
         dark
         flat
         bordered
+        virtual-scroll
         table-header-class="bg-grey-9"
         :rows="socketUserStore.getSocketUsers || []"
         :columns="SOCKET_USER_COLUMN"
@@ -77,12 +78,8 @@
         :rows-per-page-options="[0]"
         hide-pagination
         style="width: 100%; height: 100%"
+        @virtual-scroll="onScroll"
       >
-        <template v-slot:body-cell-order="props">
-          <q-td :props="props">
-            {{ props.rowIndex + 1 }}
-          </q-td>
-        </template>
         <template v-slot:body-cell="props">
           <q-td :props="props">
             <div v-if="props.col.name === 'userId'">
@@ -113,11 +110,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
-import {
-  SOCKET_USER_COLUMN,
-  SearchSocketUserState,
-} from 'src/shared/domain/socket';
-import { SelectOptions } from 'src/shared/model';
+import { SOCKET_USER_COLUMN } from 'src/shared/domain/socket';
+import { Search, SelectOptions } from 'src/shared/model';
 
 import { useSocketUserStore } from 'src/stores/socket-user-store';
 import { date } from 'quasar';
@@ -139,7 +133,7 @@ const storeType = ref<SelectOptions>({ label: '전체', value: '' });
 
 const userType = ref<SelectOptions>({ label: '전체', value: '' });
 
-const searchForm = ref<SearchSocketUserState>({
+const searchForm = ref<Search>({
   store: '',
   insCode: '',
   userType: '',
@@ -166,6 +160,17 @@ const callApi = () => {
 const changeSearchData = () => {
   searchForm.value.store = storeType.value.value;
   searchForm.value.userType = userType.value.value;
+};
+
+const onScroll = (detail: {
+  index: number;
+  from: number;
+  to: number;
+  direction: string;
+}) => {
+  if (detail.index === detail.to) {
+    socketUserStore;
+  }
 };
 </script>
 

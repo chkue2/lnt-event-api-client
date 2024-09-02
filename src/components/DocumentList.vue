@@ -185,7 +185,7 @@ const scope = ref<SelectOptions>({ label: '전체', value: '' });
 const catCode = ref<SelectOptions>({ label: '전체', value: '' });
 const kind = ref<SelectOptions>({ label: '전체', value: '' });
 
-const fromDate = ref<string>(date.formatDate('2024-07-01', 'YYYY-MM-DD'));
+const fromDate = ref<string>(date.formatDate(new Date(), 'YYYY-MM-DD'));
 const toDate = ref<string>(date.formatDate(new Date(), 'YYYY-MM-DD'));
 const searchForm = ref({
   scope: '',

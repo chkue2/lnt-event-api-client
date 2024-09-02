@@ -39,10 +39,6 @@ api.interceptors.response.use(
     if (apiError.error == 'EXPIRED_TOKEN') {
       const authorization = config.headers.Authorization;
       // refresh api call
-      const response = api.get('/refresh').catch((e) => {
-        NotifyUtil.error(e);
-      });
-      console.log(response);
       const accessToken = SessionStorage.getItem(ACCESS_TOKEN) as string;
       if (accessToken) {
         const bearer = `Bearer ${accessToken}`;
