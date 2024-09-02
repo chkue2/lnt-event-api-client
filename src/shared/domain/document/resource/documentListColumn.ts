@@ -136,4 +136,9 @@ export const DOCUMENT_LIST_COLUMN: QTableProps['columns'] = [
     style: 'max-width: 100px',
     headerStyle: 'max-width: 100px',
   },
+  {
+    name: 'detailButton',
+    label: '-',
+    field: 'detailButton',
+  },
 ];
