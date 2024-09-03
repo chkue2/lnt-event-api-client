@@ -26,14 +26,16 @@ export const useDocumentStore = defineStore('document', {
     documentListSearch: null,
     documentDetail: [],
     documentDetailSearch: null,
+    documentData: [],
     active: true,
     selectedDocId: '',
   }),
   getters: {
     getDocumentList: (state) => state.documentList,
-    getDocumentDetail: (state) => state.documentDetail,
     getDocumentListSearch: (state) => state.documentListSearch,
+    getDocumentDetail: (state) => state.documentDetail,
     getDocumentDetailSearch: (state) => state.documentDetailSearch,
+    getDocumentData: (state) => state.documentData,
   },
   actions: {
     searchDocumentList(searchForm: Search) {
@@ -72,6 +74,7 @@ export const useDocumentStore = defineStore('document', {
         searchKey: this.selectedDocId,
       })(
         (respond: DocumentDetailResult) => {
+          this.resetDocumentData();
           this.state = 'none';
           this.documentDetail = respond.list;
         },
@@ -99,8 +102,34 @@ export const useDocumentStore = defineStore('document', {
         }
       );
     },
+    searchDocumentData(historyId: string) {
+      apiService.get<any>(`/document/data/${historyId}`)(
+        (respond: any) => {
+          this.resetDocumentData();
+          if (respond.data_enc === 'JS') {
+            try {
+              const obj = JSON.parse(respond.data);
+              this.documentData = Object.entries(obj).map(([key, value]) => ({
+                key,
+                value,
+              }));
+            } catch {
+              NotifyUtil.error('비정상적인 데이타');
+            }
+          }
+        },
+        (apiError?: ApiError) => {
+          if (apiError) this.errorMessage = apiError.message;
+          else this.errorMessage = '수신 데이타 에러';
+          NotifyUtil.error(this.errorMessage);
+        }
+      );
+    },
     setDocId(docId: string) {
       this.selectedDocId = docId;
+    },
+    resetDocumentData() {
+      this.documentData = [];
     },
   },
 });

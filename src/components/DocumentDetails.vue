@@ -1,6 +1,6 @@
 <template>
   <div class="column full-height" style="overflow-x: auto">
-    <div class="col-12 q-pa-md">
+    <div class="col-6 q-pa-md">
       <q-table
         dark
         flat
@@ -16,7 +16,7 @@
         @virtual-scroll="onScroll"
       >
         <template v-slot:body-cell="props">
-          <q-td :props="props">
+          <q-td :props="props" @click="clickDetail(props.row.id)">
             <div v-if="props.col.name === 'index'">
               {{ props.rowIndex + 1 }}
             </div>
@@ -42,6 +42,35 @@
         </template>
       </q-table>
     </div>
+    <div class="col-6 q-pa-md">
+      <q-table
+        dark
+        flat
+        bordered
+        virtual-scroll
+        table-header-class="bg-grey-9"
+        :rows="documentStore.getDocumentData || []"
+        :columns="DOCUMENT_DATA_COLUMN"
+        :pagination="pagination"
+        :rows-per-page-options="[0]"
+        hide-pagination
+        style="width: 100%; height: 100%"
+      >
+        <template v-slot:body-cell="props">
+          <q-td :props="props">
+            <div v-if="props.col.name === 'index'">
+              {{ props.rowIndex + 1 }}
+            </div>
+            <div v-else-if="props.col.name === 'key'">
+              {{ props.row.key }}
+            </div>
+            <div v-else>
+              {{ props.row.value }}
+            </div>
+          </q-td>
+        </template>
+      </q-table>
+    </div>
   </div>
 </template>
 
@@ -50,7 +79,11 @@ import { ref, watch } from 'vue';
 import { date } from 'quasar';
 
 import { useDocumentStore } from 'src/stores/document-store';
-import { DOCUMENT_DETAIL_COLUMN, scopeCodes } from 'src/shared/domain/document';
+import {
+  DOCUMENT_DETAIL_COLUMN,
+  DOCUMENT_DATA_COLUMN,
+  scopeCodes,
+} from 'src/shared/domain/document';
 
 const documentStore = useDocumentStore();
 
@@ -86,5 +119,9 @@ const onScroll = (detail: {
       documentStore.searchDocumentDetailAdd(search);
     }
   }
+};
+
+const clickDetail = (historyId: string) => {
+  documentStore.searchDocumentData(historyId);
 };
 </script>

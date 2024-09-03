@@ -8,6 +8,7 @@ export interface DocumentState {
   documentListSearch: Search | null;
   documentDetail: DocumentDetailItem[] | null;
   documentDetailSearch: Search | null;
+  documentData: any;
   errorMessage: string;
   active: boolean;
   selectedDocId: string;
