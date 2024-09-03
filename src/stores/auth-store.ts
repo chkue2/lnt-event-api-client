@@ -40,6 +40,7 @@ export const useAuthorStore = defineStore('Author', {
     },
     login(signUser: SigninUser) {
       this.state = 'loading';
+      SessionStorage.removeItem(ACCESS_TOKEN);
       apiService.post<SigninUser, SignonUser>('signin', signUser)(
         (respond: SignonUser) => {
           SessionStorage.set(ACCESS_TOKEN, respond.token);

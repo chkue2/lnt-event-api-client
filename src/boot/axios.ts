@@ -31,15 +31,16 @@ api.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
   return config;
 });
 
-let isRefreshCall = false;
-
 const refreshAccessToken = async () => {
-  if (!isRefreshCall) {
-    isRefreshCall = true;
+  SessionStorage.removeItem(ACCESS_TOKEN);
+  try {
     const response = await api.get('/refresh');
+    console.log(response);
     const newAccessToken = response.data.token;
     console.log(newAccessToken);
     SessionStorage.setItem(ACCESS_TOKEN, newAccessToken);
+  } catch (error) {
+    console.log(error);
   }
 };
 
