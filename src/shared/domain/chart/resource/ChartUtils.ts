@@ -28,42 +28,42 @@ export const dateTypeOptions: SelectOptions[] = [
 
 export const ANALYSIS_REPORT_CATEGOY_CODES: AnalysisReportCategoyCode[] = [
   {
-    category: 'IR',
+    category: 'total',
     code: 'total',
     lable: '전체',
   },
   {
-    category: 'IR',
+    category: 'ir',
     code: 'ir00',
     lable: '부동산등기신청서 작성',
   },
   {
-    category: 'IR',
+    category: 'ir',
     code: 'ir10',
     lable: '부동산등기신청서 제출',
   },
   {
-    category: 'IR',
+    category: 'ir',
     code: 'ir20',
     lable: '부동산사건처리현황 검색',
   },
   {
-    category: 'IR',
+    category: 'ir',
     code: 'ir23',
     lable: '부동산등기필증 다운로드',
   },
   {
-    category: 'IR',
+    category: 'ir',
     code: 'ir40',
     lable: '고유번호 조회',
   },
   {
-    category: 'IR',
+    category: 'ir',
     code: 'ir52',
     lable: '등기필증유효성 조회',
   },
   {
-    category: 'WT',
+    category: 'wt',
     code: 'wt00',
     lable: '등록세신고',
   },
@@ -125,7 +125,33 @@ const CHART_DATE_DISPLAYS = [
   },
   {
     dateKind: CHART_DATE_DAY,
-    lables: ['일', '월', '화', '수', '목', '금', '토'],
+    lables: [
+      '0',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+      '11',
+      '12',
+      '13',
+      '14',
+      '15',
+      '16',
+      '17',
+      '18',
+      '19',
+      '20',
+      '21',
+      '22',
+      '23',
+      '24',
+    ],
   },
 ];
 
@@ -165,8 +191,8 @@ export class StatisticsSet {
         if (!exists) {
           const option: AnalysisReportStatisticsOption = {
             category: value.category,
-            searchCodes: [`${value.category}00`],
-            displayCodes: [`${value.category}00`],
+            searchCodes: findCategoryCodes(value.category),
+            displayCodes: findCategoryCodes(value.category),
             colors,
           };
           this._options.push(option);

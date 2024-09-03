@@ -78,17 +78,11 @@ export const useChartStore = defineStore('chart', {
         for (let index = start; index <= end; index++) {
           groups.push(index.toString());
         }
-
         chartView.labels = chartDisplayLabels(state.searchDateKind);
 
-        let addedcount = false;
         state.statisticsOption.forEach((option) => {
           const searchCodes = [];
           searchCodes.push(...option.searchCodes);
-          if (!addedcount) {
-            searchCodes.unshift('total');
-            addedcount = true;
-          }
           if (searchCodes.length > 0) {
             searchCodes.forEach((code) => {
               const dataset: ChartViewDataset = {
@@ -102,7 +96,7 @@ export const useChartStore = defineStore('chart', {
               } else {
                 const color = option.colors.find((item) => item.code === code);
                 dataset.label = findCategoryLabel(code);
-                dataset.backgroundColor = color ? color.color : 'black';
+                dataset.backgroundColor = color ? color.color : '#919191';
               }
               groups.forEach((value) => {
                 const data = state.statisticsResult.find(
@@ -169,7 +163,6 @@ export const useChartStore = defineStore('chart', {
               data.start = item.start;
               data.end = item.end;
               data.grouped = item.grouped;
-              data.count = Number(data.count) + Number(item.count);
               StatisticsCountSum(data, item);
             });
 
