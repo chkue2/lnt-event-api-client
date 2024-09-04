@@ -35,9 +35,7 @@ const refreshAccessToken = async () => {
   SessionStorage.removeItem(ACCESS_TOKEN);
   try {
     const response = await api.get('/refresh');
-    console.log(response);
     const newAccessToken = response.data.token;
-    console.log(newAccessToken);
     SessionStorage.setItem(ACCESS_TOKEN, newAccessToken);
   } catch (error) {
     console.log(error);

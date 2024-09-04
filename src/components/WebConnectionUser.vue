@@ -39,6 +39,13 @@ import { useWebConnectionStore } from 'src/stores/web-connection-store';
 
 const webConnectionStore = useWebConnectionStore();
 
+const roles: {
+  [key: string]: string;
+} = {
+  ROLE_ADMIN: '관리자',
+  ROLE_USER: '사용자',
+};
+
 watch(
   () => webConnectionStore.getSelectedEmail,
   () => {
@@ -52,9 +59,10 @@ const connectionUserRows = computed(() => {
     CONNECTION_USER_ROWS.map((x) => {
       if (x.name === '이메일') x.value = connectionUser.email;
       else if (x.name === '이름') x.value = connectionUser.fullName;
-      else if (x.name === '서비스') x.value = connectionUser.store;
+      else if (x.name === '서비스')
+        x.value = connectionUser.store === 'KN' ? '법무인' : '관리자';
       else if (x.name === '기관코드') x.value = connectionUser.insCode;
-      else if (x.name === '권한') x.value = connectionUser.role;
+      else if (x.name === '권한') x.value = roles[connectionUser.role];
       else if (x.name === '장기 미접속 여부')
         x.value = connectionUser.accountExpired ? 'Y' : 'N';
       else if (x.name === '계정 미승인(정지) 여부')
