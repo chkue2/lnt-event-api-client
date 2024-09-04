@@ -99,7 +99,7 @@
         @virtual-scroll="onScroll"
       >
         <template v-slot:body-cell="props">
-          <q-td :props="props">
+          <q-td :props="props" @click="clickUserRow(props.row.email)">
             <div v-if="props.col.name === 'index'">
               {{ props.rowIndex + 1 }}
             </div>
@@ -140,7 +140,7 @@
   </div>
 </template>
 
-<script setup lagn="ts">
+<script setup lang="ts">
 import { ref, watch, onMounted } from 'vue';
 
 import { USER_LIST_COLUMN } from 'src/shared/domain/user';
@@ -149,6 +149,10 @@ import { storeOptions, userFlagOptions } from 'src/shared';
 import { roles } from 'src/shared';
 
 const userStore = useUserStore();
+
+const pagination = ref({
+  rowsPerPage: 0,
+});
 
 const store = ref({
   label: '관리자',
@@ -186,5 +190,9 @@ const onScroll = (detail) => {
       userStore.searchUserListAdd(search);
     }
   }
+};
+
+const clickUserRow = (email: string) => {
+  userStore.searchUserDetail(email);
 };
 </script>

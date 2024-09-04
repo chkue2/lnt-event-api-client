@@ -3,7 +3,6 @@ import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import { SessionStorage } from 'quasar';
 import { ACCESS_TOKEN } from 'src/shared';
 import ApiErrorHelper from 'src/shared/resource/ApiErrorHelper';
-import NotifyUtil from 'src/shared/resource/NotifyUtil';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {

@@ -23,3 +23,8 @@ export const roles: {
   ROLE_ADMIN: '관리자',
   ROLE_USER: '사용자',
 };
+
+export const roleOptions = [
+  { label: '관리자', value: 'ROLE_ADMIN' },
+  { label: '사용자', value: 'ROLE_USER' },
+];
