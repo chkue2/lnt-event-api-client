@@ -50,7 +50,7 @@ export const USER_LIST_COLUMN: QTableProps['columns'] = [
     sortable: false,
   },
   {
-    name: 'userFlag',
+    name: 'useFlag',
     required: true,
     label: '사용상태',
     align: 'center',

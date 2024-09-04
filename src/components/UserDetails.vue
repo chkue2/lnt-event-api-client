@@ -75,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 
 import { useUserStore } from 'src/stores/user-store';
 import { storeOptions, roleOptions } from 'src/shared';
@@ -111,6 +111,10 @@ const role = ref({
 const useFlag = ref({
   label: '사용',
   value: 'Y',
+});
+
+onMounted(() => {
+  form.value = userStore.getUserDetail;
 });
 
 watch(
@@ -159,7 +163,7 @@ const clickCleanExpired = () => {
 }
 .user-detail-title {
   grid-column: span 1;
-  border: 1px solid #e1e1e1;
+  border: 1px solid rgba(255, 255, 255, 0.28);
   text-align: center;
   padding: 12px;
   display: flex;
@@ -168,7 +172,7 @@ const clickCleanExpired = () => {
 }
 .user-detail-content {
   grid-column: span 2;
-  border: 1px solid #e1e1e1;
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-left: none;
   text-align: center;
   padding: 12px;

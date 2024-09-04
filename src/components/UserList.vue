@@ -29,7 +29,7 @@
               borderless
               square
               outlined
-              v-model="userFlag"
+              v-model="useFlag"
               :options="userFlagOptions"
             >
               <q-tooltip
@@ -118,8 +118,8 @@
             <div v-else-if="props.col.name === 'role'">
               {{ roles[props.row.role] }}
             </div>
-            <div v-else-if="props.col.name === 'userFlag'">
-              {{ props.row.userFlag }}
+            <div v-else-if="props.col.name === 'useFlag'">
+              {{ props.row.useFlag === 'Y' ? '사용' : '미사용' }}
             </div>
             <div v-else-if="props.col.name === 'accountExpired'">
               {{ props.row.accountExpired ? 'Y' : 'N' }}
@@ -158,12 +158,12 @@ const store = ref({
   label: '관리자',
   value: '',
 });
-const userFlag = ref({ label: '전체', value: '' });
+const useFlag = ref({ label: '전체', value: '' });
 
 const searchForm = ref({
   store: '',
   insCode: '',
-  userFlag: '',
+  useFlag: '',
   keyword: '',
   limit: 30,
   cursor: '',
@@ -173,9 +173,9 @@ onMounted(() => {
   callApiList();
 });
 
-watch([store, userFlag], () => {
+watch([store, useFlag], () => {
   searchForm.value.store = store.value.value;
-  searchForm.value.userFlag = userFlag.value.value;
+  searchForm.value.useFlag = useFlag.value.value;
   callApiList();
 });
 
