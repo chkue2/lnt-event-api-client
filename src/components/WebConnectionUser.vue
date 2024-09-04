@@ -36,15 +36,9 @@ import { watch, computed } from 'vue';
 
 import { CONNECTION_USER_ROWS } from 'src/shared/domain/connection';
 import { useWebConnectionStore } from 'src/stores/web-connection-store';
+import { roles } from 'src/shared';
 
 const webConnectionStore = useWebConnectionStore();
-
-const roles: {
-  [key: string]: string;
-} = {
-  ROLE_ADMIN: '관리자',
-  ROLE_USER: '사용자',
-};
 
 watch(
   () => webConnectionStore.getSelectedEmail,

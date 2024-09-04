@@ -136,19 +136,10 @@
 import { ref, onMounted, watch } from 'vue';
 import { useWebConnectionStore } from 'src/stores/web-connection-store';
 import { CONNECTION_LIST_COLUMN } from 'src/shared/domain/connection';
+import { storeOptions } from 'src/shared';
 
 const webConnectionStore = useWebConnectionStore();
 
-const storeOptions = [
-  {
-    label: '법무인',
-    value: 'KN',
-  },
-  {
-    label: '관리자',
-    value: '',
-  },
-];
 const store = ref({
   label: '관리자',
   value: '',

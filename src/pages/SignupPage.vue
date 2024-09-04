@@ -24,7 +24,7 @@
         />
         <q-select
           v-model="model.store"
-          :options="options"
+          :options="storeOptions"
           label="서비스"
           emit-value
           map-options
@@ -90,20 +90,11 @@ import { useRouter } from 'vue-router';
 
 import { SignupUser } from 'src/shared/domain/author';
 import { useAuthorStore } from 'src/stores/auth-store';
+import { storeOptions } from 'src/shared';
 
 const router = useRouter();
 const authStore = useAuthorStore();
 
-const options = [
-  {
-    label: '법무인',
-    value: 'KN',
-  },
-  {
-    label: '관리자',
-    value: '',
-  },
-];
 const signupForm = ref(null);
 const model = ref<SignupUser>({
   email: '',
