@@ -179,13 +179,13 @@
               :columns="[
                 {
                   name: 'name',
-                  label: 'name',
+                  label: '항목',
                   align: 'center',
                   field: 'name',
                 },
                 {
                   name: 'value',
-                  label: 'value',
+                  label: '내용',
                   align: 'center',
                   field: 'value',
                 },
@@ -206,7 +206,7 @@
 
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue';
-import { QTableProps, date } from 'quasar';
+import { date } from 'quasar';
 import DateInput from './DateInput.vue';
 
 import {
@@ -247,7 +247,6 @@ const searchForm = ref({
 
 const detailModal = ref<boolean>(false);
 const documentDetail = ref<any>({});
-const documentDetailRows = ref<QTableProps['rows']>([]);
 
 onMounted(() => {
   callApiList();
@@ -304,7 +303,7 @@ const clickDetailButton = (e: Event, docId: string) => {
   documentDetail.value = documentStore.getDocumentList?.filter(
     (x) => x.docId === docId
   )[0];
-  const rows = DOCUMENT_DETAIL_ROWS.map((x) => {
+  DOCUMENT_DETAIL_ROWS.map((x) => {
     if (x.name === '앱관리번호') x.value = documentDetail.value.appId;
     else if (x.name === '전문관리번호') x.value = documentDetail.value.docId;
     else if (x.name === '송신') x.value = documentDetail.value.fromDevice;
@@ -334,7 +333,6 @@ const clickDetailButton = (e: Event, docId: string) => {
     else if (x.name === '등록일시') x.value = documentDetail.value.createdAt;
     else if (x.name === '수정일시') x.value = documentDetail.value.updatedAt;
   });
-  documentDetailRows.value = rows;
   detailModal.value = true;
 };
 </script>

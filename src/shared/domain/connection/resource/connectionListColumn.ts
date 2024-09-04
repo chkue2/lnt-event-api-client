@@ -1,0 +1,68 @@
+import { QTableProps } from 'quasar';
+
+export const CONNECTION_LIST_COLUMN: QTableProps['columns'] = [
+  {
+    name: 'index',
+    label: 'No',
+    field: 'index',
+    style: 'max-width: 60px',
+    headerStyle: 'max-width: 60px',
+    align: 'center',
+  },
+  {
+    name: 'auth',
+    required: true,
+    label: '인가여부',
+    align: 'center',
+    field: '',
+    sortable: false,
+  },
+  {
+    name: 'path',
+    required: true,
+    label: 'URL',
+    align: 'center',
+    field: '',
+    sortable: false,
+  },
+  {
+    name: 'userId',
+    required: true,
+    label: '접속자',
+    align: 'center',
+    field: '',
+    sortable: false,
+  },
+  {
+    name: 'store',
+    required: true,
+    label: '서비스',
+    align: 'center',
+    field: '',
+    sortable: false,
+  },
+  {
+    name: 'insCode',
+    required: true,
+    label: '기관코드',
+    align: 'center',
+    field: '',
+    sortable: false,
+  },
+  {
+    name: 'ip',
+    required: true,
+    label: '접속IP',
+    align: 'center',
+    field: '',
+    sortable: false,
+  },
+  {
+    name: 'createdAt',
+    required: true,
+    label: '요청일시',
+    align: 'center',
+    field: '',
+    sortable: false,
+  },
+];

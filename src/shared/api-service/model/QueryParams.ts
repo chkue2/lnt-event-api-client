@@ -12,6 +12,7 @@ export default interface queryParams {
   insCode?: string | null;
   store?: string | null;
   path?: string | null;
+  email?: string | null;
   limit?: number;
   cursor?: string;
 }
