@@ -1,0 +1,30 @@
+export interface DocumentListItem {
+  id: number;
+  appId: string;
+  fromDevice: string;
+  toDevice: string;
+  scope: string;
+  timeStamp: string;
+  createdAt: string;
+  savedAt: string;
+  docId: string;
+  insCode: string;
+  ownerId: string;
+  store: string;
+  catCode: string;
+  caseNo: string | number | null;
+  caseRefNo: string | number | null;
+  legalStaff: string | null;
+  orderNo: number;
+  detailCode: string | number | null;
+  info: string | null;
+  dataType: string;
+  state: string;
+  resultMsg: string | null;
+  workSession: string | null;
+  workRpa: string | null;
+  startTime: string | null;
+  endTime: string | null;
+  useFlag: string;
+  updatedAt: string;
+}

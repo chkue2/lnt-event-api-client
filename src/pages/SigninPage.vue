@@ -11,13 +11,13 @@
     <q-card-section>
       <q-form class="q-gutter-md" ref="signinForm" @submit="onSubmit">
         <q-input
-          model-value=""
+          v-model="model.email"
           label="이메일"
           lazy-rules
           :rules="[(val) => (val && val.length > 0) || '이메일을 입력하세요.']"
         />
         <q-input
-          model-value=""
+          v-model="model.password"
           type="password"
           label="비밀번호"
           lazy-rules
@@ -35,7 +35,6 @@
               class="full-width"
               label="계정등록"
               color="seconary"
-              type="submit"
               rounded
               @click="moveSignup"
             ></q-btn>
@@ -60,13 +59,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { QForm } from 'quasar';
 import { useRouter } from 'vue-router';
 
-const signinForm = ref(null);
+import { SigninUser } from 'src/shared/domain/author';
+import { useAuthorStore } from 'src/stores/auth-store';
 
 const router = useRouter();
+const authStore = useAuthorStore();
+
+const signinForm = ref(null);
+
+const model = ref<SigninUser>({
+  email: '',
+  password: '',
+});
 
 /**
  *  methods
@@ -76,7 +84,7 @@ const onSubmit = () => {
   const form = signinForm.value as QForm;
   form.validate().then((success) => {
     if (success) {
-      //
+      authStore.login(model.value);
     }
   });
 };

@@ -30,14 +30,26 @@ api.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
   return config;
 });
 
+const refreshAccessToken = async () => {
+  SessionStorage.removeItem(ACCESS_TOKEN);
+  try {
+    const response = await api.get('/refresh');
+    const newAccessToken = response.data.token;
+    SessionStorage.setItem(ACCESS_TOKEN, newAccessToken);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 api.interceptors.response.use(
   (res) => res,
   async (error) => {
     const { config } = error;
     const apiError = ApiErrorHelper.from(error);
     if (apiError.error == 'EXPIRED_TOKEN') {
-      const authorization = config.headers.Authorization;
       // refresh api call
+      await refreshAccessToken();
+      const authorization = config.headers.Authorization;
       const accessToken = SessionStorage.getItem(ACCESS_TOKEN) as string;
       if (accessToken) {
         const bearer = `Bearer ${accessToken}`;
